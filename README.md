@@ -47,8 +47,8 @@ Para executar o projeto, é necessário possuir:
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/<seu_usuario>/<nome_do_repositorio>.git
-   cd <nome_do_repositorio>
+   git clone https://github.com/maxwelldeveloper7/busca_pdf.git
+   cd busca_pdf/
    ```
 
 2. Crie as pastas esperadas pelo sistema:
