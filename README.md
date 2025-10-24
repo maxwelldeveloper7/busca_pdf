@@ -142,7 +142,7 @@ Desde que:
 
 ## 💬 Contato
 
-* **Autor:** Maxwell de Oliveira Chaves<br>
-* **E-mail profissional:** [maxwellchaves1844@gmail.com]()<br>
-* **GitHub:** [https://github.com/maxwelldeveloper7>](https://github.com/maxwelldeveloper7)<br>
+* **Autor:** Maxwell de Oliveira Chaves
+* **E-mail profissional:** [maxwellchaves1844@gmail.com]()
+* **GitHub:** [https://github.com/maxwelldeveloper7](https://github.com/maxwelldeveloper7)
 * **LinkedIn:** [https://www.linkedin.com/in/maxwell-oliveira-chaves/](https://www.linkedin.com/in/maxwell-oliveira-chaves/)
