@@ -13,7 +13,7 @@ O **PDF Searcher Educacional** é um aplicativo desenvolvido em **Python** para 
 
 O sistema foi concebido para auxiliar em **estudos acadêmicos**, permitindo a localização rápida de termos, expressões ou conceitos dentro de materiais didáticos (como apostilas, aulas ou textos de referência).  
 
-Este projeto surgiu da necessidade prática durante as **avaliações pedagógicas online da UNINTER**, nas quais o autor precisa consultar diversos arquivos PDF que contêm o conteúdo das aulas, mas sem indicação explícita da origem de cada questão.  
+Este projeto surgiu da necessidade prática durante **avaliações pedagógicas**, nas quais o etudante precisa consultar diversos arquivos PDF que contêm o conteúdo das aulas, mas sem indicação explícita da origem de cada questão.  
 
 ---
 
