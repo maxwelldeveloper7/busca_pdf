@@ -32,8 +32,12 @@ Este projeto está licenciado sob os termos da
 
 ## ⚠️ Observação Importante
 
-Os arquivos de conteúdo (PDFs) utilizados por este aplicativo **não estão incluídos nesta licença** e permanecem sob os **direitos autorais de seus respectivos autores e instituições de origem (ex: UNINTER)**.  
+Os arquivos de conteúdo (PDFs) utilizados por este aplicativo **não estão incluídos nesta licença** e permanecem sob os **direitos autorais de seus respectivos autores e instituições de origem**.  
 Este software apenas permite o **processamento local** desses materiais, sem redistribuição ou modificação de conteúdo protegido.
+
+Este projeto utiliza a biblioteca pdfplumber, distribuída sob a licença MIT.
+Os termos da licença MIT aplicam-se exclusivamente ao pdfplumber.
+Todo o código desenvolvido pelo autor está sob CC BY-NC-SA 4.0.
 
 ---
 
@@ -44,15 +48,3 @@ Este software apenas permite o **processamento local** desses materiais, sem red
 
 - **Resumo da licença (versão simplificada):**  
   [https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt)
-
----
-
-## 💡 Recomendações
-
-- Inclua este arquivo na raiz do repositório como `LICENSE.md`.
-- Adicione também o seguinte trecho no seu `README.md`:
-
-  ```markdown
-  ### Licença
-  Este projeto é distribuído sob a licença **CC BY-NC-SA 4.0 International**.  
-  © 2025 Maxwell de Oliveira Chaves — todos os direitos autorais sobre o código preservados.
