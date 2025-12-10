@@ -35,7 +35,7 @@ Para executar o projeto, é necessário possuir:
 - Bibliotecas:
 
   ```bash
-  pip install PyPDF2
+  pip install pdfplumber
   ```
 
 * Sistema operacional compatível: **Windows, Linux ou macOS**
