@@ -35,7 +35,8 @@ Para executar o projeto, é necessário possuir:
 - Bibliotecas:
 
   ```bash
-  pip install pdfplumber
+  #pdfplumber
+  pip install -r requirements.txt 
   ```
 
 * Sistema operacional compatível: **Windows, Linux ou macOS**
