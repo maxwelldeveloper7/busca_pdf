@@ -15,6 +15,7 @@ Licença: Uso Educacional e Não Comercial.
 """
 
 # Importação de bibliotecas
+from tqdm import tqdm
 import os
 import pdfplumber
 from datetime import datetime
@@ -35,22 +36,50 @@ def buscar_nos_pdfs(termo_busca):
     # Cria a pasta 'resultados' caso não exista
     os.makedirs(PASTA_RESULTADOS, exist_ok=True)
 
-    # Percorre todos os arquivos da pasta pdfs
-    for arquivo in os.listdir(PASTA_PDFS):
-        if arquivo.endswith(".pdf"):
-            caminho_pdf = os.path.join(PASTA_PDFS, arquivo)
 
+    # Lista de arquivos PDF válidos encontrados
+    arquivos_pdf = [
+        arq for arq in os.listdir(PASTA_PDFS) if arq.endswith(".pdf")]
+
+
+    # Primeiro: contar quantas páginas serão processadas (para a barra de progresso)
+    total_paginas = 0
+    for arquiv in arquivos_pdf:
+        caminho_pdf = os.path.join(PASTA_PDFS, arquiv)
+        try:
             with pdfplumber.open(caminho_pdf) as pdf:
-                for i, pagina in enumerate(pdf.pages, start=1):
-                    texto = pagina.extract_text() or ""
-                    if termo_busca in texto.lower():
-                        pos = texto.lower().find(termo_busca)
-                        contexto = texto[max(0, pos - 50): pos + len(termo_busca) + 50]
-                        resultados.append({
-                            "arquivo": arquivo,
-                            "pagina": i,
-                            "contexto": contexto.strip().replace("\n", " ")
-                        })
+                total_paginas += len(pdf.pages)
+        except Exception:
+            pass # Ignora PDFs corrompidos
+
+
+    # cria a barra de progresso com o toal de páginas
+    with tqdm(total = total_paginas,
+            desc="Processando PDFs",
+            unit="páginas",
+            ncols=80,
+            colour='green',
+            bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} {unit}") as barras:
+    
+
+        # Segundo: executar a busca
+        for arquivo in arquivos_pdf:
+            caminho_pdf = os.path.join(PASTA_PDFS, arquivo)
+            try:
+                with pdfplumber.open(caminho_pdf) as pdf:
+                    for i, pagina in enumerate(pdf.pages, start=1):
+                        texto = pagina.extract_text() or ""
+                        if termo_busca in texto.lower():
+                            pos = texto.lower().find(termo_busca)
+                            contexto = texto[max(0, pos - 50): pos + len(termo_busca) + 50]
+                            resultados.append({
+                                "arquivo": arquivo,
+                                "pagina": i,
+                                "contexto": contexto.strip().replace("\n", " ")
+                            })
+                        barras.update(1)  # Atualiza a barra de progresso
+            except Exception as e:
+                print(f"Erro ao processar o arquivo {arquivo}: {e}")
     return resultados
 
 # ------------------------------------------------------------------------------
