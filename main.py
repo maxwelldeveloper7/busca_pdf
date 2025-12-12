@@ -1,5 +1,4 @@
 """
-================================================================================
 Aplicativo de Busca em Múltiplos Arquivos PDF
 Autor: Maxwell de Oliveira Chaves
 Versão: 1.0
@@ -7,16 +6,14 @@ Descrição:
     Este aplicativo realiza buscas textuais em todos os arquivos PDF
     contidos em uma pasta local, exibindo e registrando as ocorrências
     encontradas. O sistema foi desenvolvido em Python com foco em uso
-    pedagógico, pesquisa de conteúdos e acessibilidade para avaliações
+    pedagógico, facilitando a pesquisa de conteúdos e acessibilidade para avaliações
     educacionais online.
-
-Licença: Uso Educacional e Não Comercial.
-================================================================================
 """
 
 # Importação de bibliotecas
 from tqdm import tqdm
 import os
+import re
 import pdfplumber
 from datetime import datetime
 
@@ -29,6 +26,7 @@ ARQUIVO_LOG = os.path.join(PASTA_RESULTADOS, "logs_pesquisa.txt")
 # Cria as pasta 'resultados' e 'pdfs'caso não existam
 os.makedirs(PASTA_RESULTADOS, exist_ok=True)
 os.makedirs(PASTA_PDFS, exist_ok=True)
+
 
 # ------------------------------------------------------------------------------
 # Função: buscar_nos_pdfs
@@ -105,8 +103,6 @@ def registrar_log(termo: str, resultados: list[dict]) -> None:
         termo (str): O termo buscado.
         resultados (list[dict]): Lista de dicionários com as ocorrências encontradas.
     """
-    if not os.path.exists(PASTA_RESULTADOS):
-        os.makedirs(PASTA_RESULTADOS)
 
     with open(ARQUIVO_LOG, "a", encoding="utf-8") as log:
         log.write("\n" + "=" * 80 + "\n")
@@ -118,11 +114,30 @@ def registrar_log(termo: str, resultados: list[dict]) -> None:
             log.write(f"Arquivo: {r['arquivo']} | Página: {r['pagina']}\n")
             log.write(f"Contexto: ...{r['contexto']}...\n\n")
 
+
+def destacar_termo(contexto: str, termo: str) -> str:
+    """
+    Procura o termo em todo o contexto e aplica cor ANSI a todas as ocorrências.
+    A busca é case-insensitive e preserva o texto original.
+    """
+    if not termo:
+        return contexto
+
+    # Cria padrão para achar o termo independentemente de maiúsculas/minúsculas
+    padrao = re.compile(re.escape(termo), re.IGNORECASE)
+
+    # Cores ANSI (vermelho negrito)
+    inicio = "\033[38;2;205;133;63m"
+    fim = "\033[0m"
+
+    # Substitui todas as ocorrências
+    return padrao.sub(lambda m: f"{inicio}{m.group(0)}{fim}", contexto)
+
 # ------------------------------------------------------------------------------
 # Função: exibir_resultados
 # Mostra no terminal os resultados encontrados.
 # ------------------------------------------------------------------------------
-def exibir_resultados(resultados: list[dict]) -> None:
+def exibir_resultados(resultados: list[dict], termo: str) -> None:
     """
     Exibe os resultados encontrados no terminal.
     Args:
@@ -134,7 +149,15 @@ def exibir_resultados(resultados: list[dict]) -> None:
 
     print(f"\n🔎 {len(resultados)} ocorrência(s) encontradas:\n")
     for r in resultados:
-        print(f"📘 {r['arquivo']} (pág. {r['pagina']}): ...{r['contexto']}...\n")
+        contexto_colorido = destacar_termo(r['contexto'], termo)
+        print(f"📘 {r['arquivo']} (pág. {r['pagina']}): ...{contexto_colorido}...\n")
+
+
+def limpar_terminal():
+    """
+    Limpa o terminal de acordo com o sistema operacional.
+    """
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 # ------------------------------------------------------------------------------
 # Função: exibir_menu
@@ -155,9 +178,9 @@ def exibir_menu():
 
         if opcao == "1":
             termo = input("\nDigite o termo a ser buscado: ")
-            os.system('cls' if os.name == 'nt' else 'clear')  # Limpa o terminal
+            limpar_terminal()
             resultados = buscar_nos_pdfs(termo)
-            exibir_resultados(resultados)
+            exibir_resultados(resultados, termo)
             registrar_log(termo, resultados)
             print(f"\n🗂️  Log salvo em: {ARQUIVO_LOG}")
 
