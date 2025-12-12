@@ -25,21 +25,33 @@ PASTA_PDFS = "pdfs"
 PASTA_RESULTADOS = "resultados"
 ARQUIVO_LOG = os.path.join(PASTA_RESULTADOS, "logs_pesquisa.txt")
 
+
+# Cria as pasta 'resultados' e 'pdfs'caso não existam
+os.makedirs(PASTA_RESULTADOS, exist_ok=True)
+os.makedirs(PASTA_PDFS, exist_ok=True)
+
 # ------------------------------------------------------------------------------
 # Função: buscar_nos_pdfs
 # Percorre todos os arquivos PDF da pasta especificada e busca o termo informado.
 # ------------------------------------------------------------------------------
-def buscar_nos_pdfs(termo_busca):
+def buscar_nos_pdfs(termo_busca: str) -> list[dict]:
+    """
+    Busca o termo especificado em todos os arquivos PDF na pasta definida.
+    Args:
+        termo_busca (str): O termo a ser buscado nos PDFs.
+    Returns:
+        Retorna uma lista de dicionários com as ocorrências encontradas.
+    """
     termo_busca = termo_busca.lower()  # Normaliza o termo de busca
     resultados = []
-
-    # Cria a pasta 'resultados' caso não exista
-    os.makedirs(PASTA_RESULTADOS, exist_ok=True)
-
 
     # Lista de arquivos PDF válidos encontrados
     arquivos_pdf = [
         arq for arq in os.listdir(PASTA_PDFS) if arq.endswith(".pdf")]
+    
+    # Armazena o total de arquivos encontrados
+    total = len(arquivos_pdf)
+        
 
 
     # Primeiro: contar quantas páginas serão processadas (para a barra de progresso)
@@ -50,15 +62,15 @@ def buscar_nos_pdfs(termo_busca):
             with pdfplumber.open(caminho_pdf) as pdf:
                 total_paginas += len(pdf.pages)
         except Exception:
-            pass # Ignora PDFs corrompidos
+            continue # Ignora PDFs corrompidos
 
 
     # cria a barra de progresso com o toal de páginas
     with tqdm(total = total_paginas,
-            desc="Processando PDFs",
+            desc=f"Procurando em {total} arquivos pelo termo '{termo_busca}'",
             unit="páginas",
-            ncols=80,
-            colour='green',
+            ncols=100,
+            # colour='green',
             bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} {unit}") as barras:
     
 
@@ -86,8 +98,15 @@ def buscar_nos_pdfs(termo_busca):
 # Função: registrar_log
 # Salva as ocorrências encontradas em um arquivo de log.
 # ------------------------------------------------------------------------------
-def registrar_log(termo, resultados):
-    os.makedirs(PASTA_RESULTADOS, exist_ok=True)
+def registrar_log(termo: str, resultados: list[dict]) -> None:
+    """
+    Registra as ocorrências encontradas em um arquivo de log.
+    Args:
+        termo (str): O termo buscado.
+        resultados (list[dict]): Lista de dicionários com as ocorrências encontradas.
+    """
+    if not os.path.exists(PASTA_RESULTADOS):
+        os.makedirs(PASTA_RESULTADOS)
 
     with open(ARQUIVO_LOG, "a", encoding="utf-8") as log:
         log.write("\n" + "=" * 80 + "\n")
@@ -103,7 +122,12 @@ def registrar_log(termo, resultados):
 # Função: exibir_resultados
 # Mostra no terminal os resultados encontrados.
 # ------------------------------------------------------------------------------
-def exibir_resultados(resultados):
+def exibir_resultados(resultados: list[dict]) -> None:
+    """
+    Exibe os resultados encontrados no terminal.
+    Args:
+        resultados (list[dict]): Lista de dicionários com as ocorrências encontradas.    
+    """    
     if not resultados:
         print("\nNenhum resultado encontrado.")
         return
@@ -117,6 +141,9 @@ def exibir_resultados(resultados):
 # Interface de linha de comando para uso contínuo do sistema.
 # ------------------------------------------------------------------------------
 def exibir_menu():
+    """
+    Exibe o menu principal do sistema.
+    """    
     while True:
         print("\n=== Sistema de Busca em PDFs ===")
         print("1. Realizar nova busca")
@@ -128,6 +155,7 @@ def exibir_menu():
 
         if opcao == "1":
             termo = input("\nDigite o termo a ser buscado: ")
+            os.system('cls' if os.name == 'nt' else 'clear')  # Limpa o terminal
             resultados = buscar_nos_pdfs(termo)
             exibir_resultados(resultados)
             registrar_log(termo, resultados)
