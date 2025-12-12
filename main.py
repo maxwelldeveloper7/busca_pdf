@@ -11,11 +11,13 @@ Descrição:
 """
 
 # Importação de bibliotecas
-from tqdm import tqdm
 import os
 import re
-import pdfplumber
 from datetime import datetime
+
+import pdfplumber
+from tqdm import tqdm
+
 
 # Definição das pastas do projeto
 PASTA_PDFS = "pdfs"
@@ -46,10 +48,10 @@ def buscar_nos_pdfs(termo_busca: str) -> list[dict[str, str | int]]:
     # Lista de arquivos PDF válidos encontrados
     arquivos_pdf = [
         arq for arq in os.listdir(PASTA_PDFS) if arq.endswith(".pdf")]
-    
+
     # Armazena o total de arquivos encontrados
     total = len(arquivos_pdf)
-        
+
 
 
     # Primeiro: contar quantas páginas serão processadas (para a barra de progresso)
@@ -59,7 +61,7 @@ def buscar_nos_pdfs(termo_busca: str) -> list[dict[str, str | int]]:
         try:
             with pdfplumber.open(caminho_pdf) as pdf:
                 total_paginas += len(pdf.pages)
-        except Exception:
+        except FileNotFoundError:
             continue # Ignora PDFs corrompidos
 
 
@@ -67,10 +69,10 @@ def buscar_nos_pdfs(termo_busca: str) -> list[dict[str, str | int]]:
     with tqdm(total = total_paginas,
             desc=f"Procurando em {total} arquivos pelo termo '{termo_busca}'",
             unit="páginas",
-            ncols=100,
+            ncols=80,
             # colour='green',
             bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} {unit}") as barras:
-    
+
 
         # Segundo: executar a busca
         for arquivo in arquivos_pdf:
@@ -82,14 +84,15 @@ def buscar_nos_pdfs(termo_busca: str) -> list[dict[str, str | int]]:
                         texto_minusculo = texto_original.lower()
                         if termo_busca in texto_minusculo.lower():
                             pos = texto_minusculo.find(termo_busca)
-                            contexto = texto_minusculo[max(0, pos - 50): pos + len(termo_busca) + 50]
+                            contexto = texto_minusculo[
+                                max(0, pos - 50): pos + len(termo_busca) + 50]
                             resultados.append({
                                 "arquivo": arquivo,
                                 "pagina": i,
                                 "contexto": contexto.strip().replace("\n", " ")
                             })
                         barras.update(1)  # Atualiza a barra de progresso
-            except Exception as e:
+            except FileNotFoundError as e:
                 print(f"Erro ao processar o arquivo {arquivo}: {e}")
     return resultados
 
@@ -153,7 +156,8 @@ def exibir_resultados(resultados: list[dict], termo: str) -> None:
     Exibe os resultados encontrados no terminal.
     Args:
         resultados (list[dict]): Lista de dicionários com as ocorrências encontradas.    
-    """    
+    """
+
     if not resultados:
         print("\nNenhum resultado encontrado.")
         return
@@ -178,7 +182,8 @@ def limpar_terminal():
 def exibir_menu():
     """
     Exibe o menu principal do sistema.
-    """    
+    """
+
     while True:
         print("\n=== Sistema de Busca em PDFs ===")
         print("1. Realizar nova busca")
