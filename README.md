@@ -52,20 +52,13 @@ Para executar o projeto, é necessário possuir:
    cd busca_pdf/
    ```
 
-2. Crie as pastas esperadas pelo sistema:
-
-   ```bash
-   /pdfs          → onde ficam os arquivos PDF (não incluídos no repositório)
-   /resultados    → onde serão salvos os logs e arquivos de saída
-   ```
-
-3. Execute o script principal:
+2. Execute o script principal:
 
    ```bash
    python buscar_pdfs.py
    ```
 
-4. Informe o termo de busca quando solicitado:
+3. Informe o termo de busca quando solicitado:
 
    ```
    Digite o termo que deseja buscar: algoritmo
