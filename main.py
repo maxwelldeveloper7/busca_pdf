@@ -78,10 +78,11 @@ def buscar_nos_pdfs(termo_busca: str) -> list[dict]:
             try:
                 with pdfplumber.open(caminho_pdf) as pdf:
                     for i, pagina in enumerate(pdf.pages, start=1):
-                        texto = pagina.extract_text() or ""
-                        if termo_busca in texto.lower():
-                            pos = texto.lower().find(termo_busca)
-                            contexto = texto[max(0, pos - 50): pos + len(termo_busca) + 50]
+                        texto_original = pagina.extract_text() or ""
+                        texto_minusculo = texto_original.lower()
+                        if termo_busca in texto_minusculo.lower():
+                            pos = texto_minusculo.find(termo_busca)
+                            contexto = texto_minusculo[max(0, pos - 50): pos + len(termo_busca) + 50]
                             resultados.append({
                                 "arquivo": arquivo,
                                 "pagina": i,
