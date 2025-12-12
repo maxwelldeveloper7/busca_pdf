@@ -168,7 +168,8 @@ def limpar_terminal():
     """
     Limpa o terminal de acordo com o sistema operacional.
     """
-    os.system('cls' if os.name == 'nt' else 'clear')
+    print("\033[H\033[J", end="")
+
 
 # ------------------------------------------------------------------------------
 # Função: exibir_menu
