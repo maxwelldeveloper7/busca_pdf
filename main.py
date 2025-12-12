@@ -49,11 +49,6 @@ def buscar_nos_pdfs(termo_busca: str) -> list[dict[str, str | int]]:
     arquivos_pdf = [
         arq for arq in os.listdir(PASTA_PDFS) if arq.endswith(".pdf")]
 
-    # Armazena o total de arquivos encontrados
-    total = len(arquivos_pdf)
-
-
-
     # Primeiro: contar quantas páginas serão processadas (para a barra de progresso)
     total_paginas = 0
     for arquiv in arquivos_pdf:
@@ -64,14 +59,13 @@ def buscar_nos_pdfs(termo_busca: str) -> list[dict[str, str | int]]:
         except FileNotFoundError:
             continue # Ignora PDFs corrompidos
 
-
     # cria a barra de progresso com o toal de páginas
     with tqdm(total = total_paginas,
-            desc=f"Procurando em {total} arquivos pelo termo '{termo_busca}'",
+            desc=f"procurando por '{termo_busca}'",
             unit="páginas",
             ncols=80,
             # colour='green',
-            bar_format="{desc}: {percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} {unit}") as barras:
+            bar_format="{desc}:{percentage:3.0f}%|{bar}| {n_fmt}/{total_fmt} {unit}") as barras:
 
 
         # Segundo: executar a busca
