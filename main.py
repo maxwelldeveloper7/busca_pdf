@@ -32,7 +32,7 @@ os.makedirs(PASTA_PDFS, exist_ok=True)
 # Função: buscar_nos_pdfs
 # Percorre todos os arquivos PDF da pasta especificada e busca o termo informado.
 # ------------------------------------------------------------------------------
-def buscar_nos_pdfs(termo_busca: str) -> list[dict]:
+def buscar_nos_pdfs(termo_busca: str) -> list[dict[str, str | int]]:
     """
     Busca o termo especificado em todos os arquivos PDF na pasta definida.
     Args:
