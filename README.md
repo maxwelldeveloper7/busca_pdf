@@ -55,7 +55,7 @@ Para executar o projeto, é necessário possuir:
 2. Execute o script principal:
 
    ```bash
-   python buscar_pdfs.py
+   python main.py
    ```
 
 3. Informe o termo de busca quando solicitado:
