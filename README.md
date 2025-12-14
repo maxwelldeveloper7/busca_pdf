@@ -1,15 +1,16 @@
+![](https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+
 # 🔍 PDF Searcher Educacional
 
 **Autor:** Maxwell de Oliveira Chaves  
 **Ano:** 2025  
-**Licença:** [CC BY-NC-SA 4.0 International](LICENSE.md)  
-**Linguagem:** Python 3.x  
+**Licença:** [CC BY-NC-SA 4.0 International](LICENSE.md) 
 
 ---
 
 ## 📘 Descrição do Projeto
 
-O **PDF Searcher Educacional** é um aplicativo desenvolvido em **Python** para realizar **buscas textuais com filtros** em múltiplos arquivos PDF localizados em uma pasta específica.  
+O **PDF Searcher Educacional** é um aplicativo desenvolvido para realizar **buscas textuais com filtros** em múltiplos arquivos PDF localizados em uma pasta específica.  
 
 O sistema foi concebido para auxiliar em **estudos acadêmicos**, permitindo a localização rápida de termos, expressões ou conceitos dentro de materiais didáticos (como apostilas, aulas ou textos de referência).  
 
@@ -22,7 +23,7 @@ Este projeto surgiu da necessidade prática durante **avaliações pedagógicas*
 O aplicativo visa:
 
 - Otimizar o processo de **busca e revisão de conteúdo educacional**;  
-- Demonstrar **boas práticas de manipulação e leitura de PDFs em Python**;  
+- Demonstrar **boas práticas leitura de PDFs com Python**;  
 - Servir como **recurso didático** para alunos e professores que estudam automação de processos e análise de texto.  
 
 ---
@@ -31,13 +32,14 @@ O aplicativo visa:
 
 Para executar o projeto, é necessário possuir:
 
-- **Python 3.8+**  
-- Bibliotecas:
+- **Python:**
+   
+   ![python version](https://img.shields.io/badge/python-3.8%2B-yellow) 
+- **Bibliotecas**:
 
-  ```bash
-  #pdfplumber
-  pip install -r requirements.txt 
-  ```
+  ![pdfplumber version](https://img.shields.io/badge/pdfplumber-0.11.0-blue)
+  ![tqdm version](https://img.shields.io/badge/tqdm-4.65.0-green)
+  
 
 * Sistema operacional compatível: **Windows, Linux ou macOS**
 
@@ -52,16 +54,37 @@ Para executar o projeto, é necessário possuir:
    cd busca_pdf/
    ```
 
-2. Execute o script principal:
+2. Crie um ambiente virtual isolado:
+   ```bash
+   python -m venv venv
+   ```
+
+3. Ative:
+   ```bash
+   source venv/bin/activate  # Linux/Mac
+   venv\Scripts\activate     # Windows
+   ```
+
+4. Instale as bibliotecas:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. Execute o script principal:
 
    ```bash
    python main.py
    ```
 
-3. Informe o termo de busca quando solicitado:
+6. Informe o termo de busca quando solicitado:
 
    ```
    Digite o termo que deseja buscar: algoritmo
+   ```
+
+7. Desative quando terminar:
+   ```bash
+   deactivate
    ```
 
 O sistema fará a varredura em todos os PDFs da pasta indicada e salvará os resultados em:
