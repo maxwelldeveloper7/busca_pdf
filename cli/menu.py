@@ -25,7 +25,7 @@ def exibir_resultados(resultados: list[dict], termo: str) -> None:
         print(f"📘 {r['arquivo']} (pág. {r['pagina']}): ...{contexto}...\n")
 
 
-def exibir_menu() -> None:
+def exibir_menu(total_pdfs) -> None:
     """
     Exibe o menu principal do sistema.
     """
@@ -39,6 +39,11 @@ def exibir_menu() -> None:
         opcao = input("Escolha uma opção: ").strip()
 
         if opcao == "1":
+            if total_pdfs == 0:
+                print("\n❌ A busca está indisponível.")
+                print("➡️  Nenhum arquivo PDF foi encontrado na pasta 'pdfs/'.")
+                print("➡️  Copie os arquivos PDF e reinicie o aplicativo.\n")
+                continue
             termo = input("Digite o termo a ser buscado: ")
             limpar_terminal()
             resultados = buscar_nos_pdfs(termo)
