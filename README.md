@@ -43,6 +43,8 @@ O projeto foi estruturado de forma modular, com separação clara de responsabil
 * **utils/**  
   Módulos utilitários, incluindo a inicialização do ambiente e verificação de pastas.
 
+![](./docs/images/componentes.png)
+
 ---
 
 ### 🧩 Padrões de Projeto Utilizados
@@ -54,6 +56,8 @@ O padrão **State** é utilizado para representar os estados do ambiente de exec
 * Ambiente **sem PDFs disponíveis**;
 * Ambiente **pronto para busca**.
 
+![](./docs/images/state.png)
+
 Cada estado define de forma explícita se determinadas ações (como a busca) são permitidas, garantindo clareza e coesão no comportamento do sistema.
 
 #### ✔ Observer
@@ -63,8 +67,15 @@ O padrão **Observer** é empregado para:
 * Monitorar alterações na pasta `pdfs/`;
 * Notificar automaticamente a interface (CLI) quando o estado do ambiente muda;
 * Atualizar mensagens e permissões de uso sem necessidade de reiniciar o aplicativo.
+![](./docs/images/observer.png)
+---
+![](./docs/images/integrado.png)
 
 ⚠️ **Importante:** Antes de qualquer operação crítica (como realizar uma busca), o sistema **revalida o estado real do filesystem**, evitando inconsistências causadas por alterações externas (ex.: remoção manual de PDFs).
+
+---
+![](./docs/images/sequencia.png)
+
 
 ---
 
