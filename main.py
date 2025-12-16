@@ -10,7 +10,7 @@ Descrição:
     educacionais online.
 """
 from utils.bootstrap import inicializar_ambiente
-from cli.menu import exibir_menu
+from cli.menu import MenuCLI
 
 
 def main() -> None:
@@ -18,8 +18,9 @@ def main() -> None:
     Função principal do aplicativo.
     Inicializa o ambiente e exibe o menu principal.
     """
-    total_pdfs = inicializar_ambiente()
-    exibir_menu(total_pdfs)
+    ambiente = inicializar_ambiente()
+    menu = MenuCLI(ambiente)
+    menu.exibir()
 
 
 if __name__ == "__main__":

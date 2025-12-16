@@ -1,30 +1,70 @@
-![](https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+
+![](https://img.shields.io/badge/python-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
 
 # 🔍 PDF Searcher Educacional
 
 **Autor:** Maxwell de Oliveira Chaves  
 **Ano:** 2025  
-**Licença:** [CC BY-NC-SA 4.0 International](LICENSE.md) 
+**Licença:** [CC BY-NC-SA 4.0 International](LICENSE.md)
 
 ---
 
 ## 📘 Descrição do Projeto
 
-O **PDF Searcher Educacional** é um aplicativo desenvolvido para realizar **buscas textuais com filtros** em múltiplos arquivos PDF localizados em uma pasta específica.  
+O **PDF Searcher Educacional** é um aplicativo de linha de comando (CLI) desenvolvido em Python para realizar **buscas textuais com filtros** em múltiplos arquivos PDF localizados em uma pasta específica.
 
-O sistema foi concebido para auxiliar em **estudos acadêmicos**, permitindo a localização rápida de termos, expressões ou conceitos dentro de materiais didáticos (como apostilas, aulas ou textos de referência).  
-
-Este projeto surgiu da necessidade prática durante **avaliações pedagógicas**, nas quais o etudante precisa consultar diversos arquivos PDF que contêm o conteúdo das aulas, mas sem indicação explícita da origem de cada questão.  
+O sistema foi concebido para auxiliar em **estudos acadêmicos e avaliações pedagógicas**, permitindo a localização rápida de termos, expressões ou conceitos dentro de materiais didáticos (apostilas, aulas, textos de referência), mesmo quando não há indicação explícita da origem do conteúdo.
 
 ---
 
 ## 🧠 Objetivo Educacional
 
-O aplicativo visa:
+O projeto tem como objetivos principais:
 
-- Otimizar o processo de **busca e revisão de conteúdo educacional**;  
-- Demonstrar **boas práticas leitura de PDFs com Python**;  
-- Servir como **recurso didático** para alunos e professores que estudam automação de processos e análise de texto.  
+* Otimizar o processo de **busca e revisão de conteúdo educacional**;
+* Demonstrar **boas práticas de leitura e processamento de PDFs com Python**;
+* Apresentar, de forma didática, a aplicação dos padrões de projeto **State** e **Observer**;
+* Servir como **material de apoio** para estudantes e professores que estudam automação, arquitetura de software e organização de código.
+
+---
+
+## 🏗️ Arquitetura e Decisões Técnicas
+
+O projeto foi estruturado de forma modular, com separação clara de responsabilidades:
+
+### 📐 Organização em Módulos
+
+* **core/**  
+  Contém a lógica central do domínio (busca em PDFs, estados do sistema e regras de negócio).
+
+* **cli/**  
+  Responsável pela interface de linha de comando, menus e interação com o usuário.
+
+* **utils/**  
+  Módulos utilitários, incluindo a inicialização do ambiente e verificação de pastas.
+
+---
+
+### 🧩 Padrões de Projeto Utilizados
+
+#### ✔ State
+
+O padrão **State** é utilizado para representar os estados do ambiente de execução, como:
+
+* Ambiente **sem PDFs disponíveis**;
+* Ambiente **pronto para busca**.
+
+Cada estado define de forma explícita se determinadas ações (como a busca) são permitidas, garantindo clareza e coesão no comportamento do sistema.
+
+#### ✔ Observer
+
+O padrão **Observer** é empregado para:
+
+* Monitorar alterações na pasta `pdfs/`;
+* Notificar automaticamente a interface (CLI) quando o estado do ambiente muda;
+* Atualizar mensagens e permissões de uso sem necessidade de reiniciar o aplicativo.
+
+⚠️ **Importante:** Antes de qualquer operação crítica (como realizar uma busca), o sistema **revalida o estado real do filesystem**, evitando inconsistências causadas por alterações externas (ex.: remoção manual de PDFs).
 
 ---
 
@@ -32,14 +72,9 @@ O aplicativo visa:
 
 Para executar o projeto, é necessário possuir:
 
-- **Python:**
-   
-   ![python version](https://img.shields.io/badge/python-3.8%2B-yellow) 
-- **Bibliotecas**:
+* **Python 3.8+**
 
-  ![pdfplumber version](https://img.shields.io/badge/pdfplumber-0.11.0-blue)
-  ![tqdm version](https://img.shields.io/badge/tqdm-4.65.0-green)
-  
+* **Bibliotecas:** ``pdfplumber-0.11.0``, ``tqdm-4.65.0``
 
 * Sistema operacional compatível: **Windows, Linux ou macOS**
 
@@ -55,41 +90,43 @@ Para executar o projeto, é necessário possuir:
    ```
 
 2. Crie um ambiente virtual isolado:
+
    ```bash
    python -m venv venv
    ```
 
-3. Ative:
+3. Ative o ambiente virtual:
+
    ```bash
    source venv/bin/activate  # Linux/Mac
    venv\Scripts\activate     # Windows
    ```
 
-4. Instale as bibliotecas:
+4. Instale as dependências:
+
    ```bash
    pip install -r requirements.txt
    ```
 
-5. Execute o script principal:
+5. Execute o aplicativo:
 
    ```bash
    python main.py
    ```
 
-6. Informe o termo de busca quando solicitado:
+6. Caso a pasta `pdfs/` não exista, ela será **criada automaticamente**.
 
-   ```
-   Digite o termo que deseja buscar: algoritmo
-   ```
+7. Copie os arquivos PDF desejados para a pasta `pdfs/`.
 
-7. Desative quando terminar:
-   ```bash
-   deactivate
-   ```
+8. Utilize o menu para:
 
-O sistema fará a varredura em todos os PDFs da pasta indicada e salvará os resultados em:
+   * Realizar buscas;
+   * Atualizar o estado do ambiente;
+   * Visualizar ou limpar logs.
 
-```
+O sistema salvará os resultados em:
+
+```bash
 /resultados/log_busca.txt
 ```
 
@@ -99,40 +136,37 @@ O sistema fará a varredura em todos os PDFs da pasta indicada e salvará os res
 
 ```bash
 📦 pdf-searcher-educacional
- ┣ 📂 pdfs/           # Arquivos PDF (não incluídos por direitos autorais)
- ┣ 📂 resultados/     # Logs e relatórios das buscas
- ┣ 📜 buscar_pdfs.py  # Código-fonte principal
- ┣ 📜 LICENSE.md      # Termos da licença (CC BY-NC-SA 4.0)
- ┣ 📜 .gitignore      # Arquivos e pastas ignorados pelo Git
- ┗ 📜 README.md       # Documentação do projeto
+ ┣ 📂 core/            # Lógica central e regras de negócio
+ ┣ 📂 cli/             # Interface de linha de comando
+ ┣ 📂 utils/           # Inicialização e utilidades
+ ┣ 📂 pdfs/            # Arquivos PDF (não incluídos)
+ ┣ 📂 resultados/      # Logs e relatórios de busca
+ ┣ 📜 main.py          # Ponto de entrada da aplicação
+ ┣ 📜 LICENSE.md       # Termos da licença
+ ┣ 📜 .gitignore       # Arquivos ignorados pelo Git
+ ┣ 📜 CHANGELOG.md     # Arquivos ignorados pelo Git
+ ┗ 📜 README.md        # Documentação do projeto
 ```
-
----
-
-## 🧩 Funcionalidades
-
-* Busca textual em múltiplos arquivos PDF;
-* Filtragem de resultados por nome do arquivo e número de página;
-* Log automático dos resultados em arquivo `.txt`;
-* Organização automática de pastas (`pdfs/` e `resultados/`);
-* Estrutura de código documentada e comentada para fins didáticos.
 
 ---
 
 ## 🧱 Boas Práticas Implementadas
 
-* Uso de **tratamento de exceções** para PDFs corrompidos ou ilegíveis;
-* Implementação de **logging estruturado** em arquivo de resultados;
-* Separação lógica entre leitura, processamento e salvamento de dados;
-* Comentários explicativos em **todas as linhas do código-fonte**;
-* Conformidade com o padrão **PEP 8** (estilo de código Python).
+* Separação clara de responsabilidades por módulo;
+* Uso de **Pathlib** para manipulação de caminhos;
+* Validação do estado real do filesystem antes de ações críticas;
+* Aplicação consciente dos padrões **State** e **Observer**;
+* Tratamento de exceções para PDFs inválidos ou corrompidos;
+* Código comentado com foco didático;
+* Conformidade com o padrão **PEP 8**.
 
 ---
 
 ## ⚠️ Aviso Legal e Ético
 
-> Os arquivos PDF utilizados por este aplicativo **não estão incluídos no repositório** e **não devem ser redistribuídos**, pois são protegidos por direitos autorais de seus respectivos autores e instituições.
-> Este software apenas processa **cópias locais** dos materiais de estudo, de forma **estritamente educacional e não comercial**.
+> Os arquivos PDF utilizados pelo aplicativo **não estão incluídos no repositório** e **não devem ser redistribuídos**, pois são protegidos por direitos autorais.
+>
+> Este software opera exclusivamente sobre **cópias locais** e tem finalidade **educacional e não comercial**.
 
 ---
 
@@ -143,23 +177,23 @@ Este projeto é licenciado sob os termos da
 
 Você pode:
 
-* **Compartilhar** — copiar e redistribuir o material em qualquer formato;
-* **Adaptar** — remixar, transformar e criar a partir do material;
+* Compartilhar — copiar e redistribuir o material;
+* Adaptar — remixar, transformar e criar a partir do material;
 
 Desde que:
 
-* **Dê crédito a Maxwell de Oliveira Chaves**;
-* **Não utilize o material para fins comerciais**;
-* **Distribua modificações sob a mesma licença**.
+* Seja atribuída a autoria a **Maxwell de Oliveira Chaves**;
+* Não haja uso comercial;
+* As modificações sejam distribuídas sob a mesma licença.
 
-📄 Texto completo da licença:
+📄 Texto completo da licença:  
 [https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt](https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.pt)
 
 ---
 
 ## 💬 Contato
 
-* **Autor:** Maxwell de Oliveira Chaves
-* **E-mail profissional:** [maxwellchaves1844@gmail.com]()
-* **GitHub:** [https://github.com/maxwelldeveloper7](https://github.com/maxwelldeveloper7)
+* **Autor:** Maxwell de Oliveira Chaves  \
+* **E-mail profissional:** [maxwellchaves1844@gmail.com](mailto:maxwellchaves1844@gmail.com)  \
+* **GitHub:** [https://github.com/maxwelldeveloper7](https://github.com/maxwelldeveloper7)  \
 * **LinkedIn:** [https://www.linkedin.com/in/maxwell-oliveira-chaves/](https://www.linkedin.com/in/maxwell-oliveira-chaves/)

@@ -1,37 +1,26 @@
-"""Módulo utilitário para inicializar o ambiente de execução."""
 from pathlib import Path
+from core.context import AmbienteContexto
+from core.ambiente import AmbienteObservable
 
 PASTA_PDFS = Path("pdfs")
 PASTA_RESULTADOS = Path("resultados")
 
 
-def inicializar_ambiente() -> int:
-    """
-    Verifica e cria as pastas necessárias para a execução do aplicativo.
-    Retorna a quantidade de arquivos PDF encontrados.
-    """
-
-    pdfs_criada = False
-
+def inicializar_ambiente() -> AmbienteObservable:
     if not PASTA_PDFS.exists():
         PASTA_PDFS.mkdir(parents=True, exist_ok=True)
-        pdfs_criada = True
+        print("\n📂 Pasta 'pdfs/' criada com sucesso.")
+        print("➡️  Copie os arquivos PDF para esta pasta.\n")
 
     if not PASTA_RESULTADOS.exists():
         PASTA_RESULTADOS.mkdir(parents=True, exist_ok=True)
 
-    arquivos_pdf = list(PASTA_PDFS.glob("*.pdf"))
-    total_pdfs = len(arquivos_pdf)
+    ambiente = AmbienteObservable(PASTA_PDFS)
 
-    if pdfs_criada:
-        print("\n📂 Pasta 'pdfs/' criada com sucesso.")
-        print("➡️  Copie para esta pasta os arquivos PDF que deseja pesquisar.")
-        print("➡️  Os arquivos devem estar no formato .pdf\n")
-
-    if total_pdfs == 0:
-        print("⚠️  Nenhum arquivo PDF encontrado na pasta 'pdfs/'.")
-        print("➡️  Adicione pelo menos um arquivo PDF para habilitar a busca.\n")
+    total = len(list(PASTA_PDFS.glob("*.pdf")))
+    if total == 0:
+        print("⚠️  Nenhum arquivo PDF encontrado.")
     else:
-        print(f"📄 {total_pdfs} arquivo(s) PDF encontrado(s) na pasta 'pdfs/'.\n")
+        print(f"📄 {total} arquivo(s) PDF encontrado(s).")
 
-    return total_pdfs
+    return ambiente
